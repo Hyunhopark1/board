@@ -1,0 +1,26 @@
+[CUDInfoDto]
+작성,수정,삭제 할때 이름과 날짜를 설정하는 클래스
+service에서 CUDInfoDto 객체와 BoardDto 객체를 받아와서
+CUDInfoDto 클래스의 메소드에 BoardDto 객체를 인수로 넘긴다.
+
+ex) service의 insert메소드
+public BoardDto insert(CUDInfoDto info, BoardDto dto)
+{
+  
+}
+
+
+
+[현재 날짜/시간 리턴 함수]
+String getSystemDt()  
+[작성일/작성자 설정 함수]  --> Dto를 받아와서 dto의 setCreateDt,setCreateId 에 값 설정
+void setCreateInfo(IBoardBase dto)
+[수정일/수정자 설정 함수]  --> Dto를 받아와서 dto의 setUpdateDt,setUpdateId 에 값 설정
+void setUpdateInfo(IBoardBase dto)
+[삭제일/삭제자 설정 함수]  --> Dto를 받아와서 dto의 setDeleteDt,setDeleteId 에 값 설정
+void setDeleteInfo(IBoardBase dto)
+
+
+
+
+

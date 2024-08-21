@@ -1,0 +1,28 @@
+[build.gradle 의존성]
+
+<Developer Tools>
+Spring boot devTools
+Lombok
+Spring Configuration Processor
+
+<Web>
+Spring Web
+
+<Template Engines>
+Mustache
+
+<Security>
+Spring Security
+
+<SQL>
+JDBC API
+MyBatis FrameWork
+MySQL Driver
+
+
+[application.properties 초기설정]
+
+1. mysql DB 연동
+2. mybatis 연동
+3. mustache 연동
+4. korean 인코딩

@@ -1,0 +1,34 @@
+[board_tbl]
+필드:
+(게시판id, 제목, 내용, 조회수, 좋아요수, 작성일, 작성자, 수정일, 수정자, 삭제일, 삭제자, 삭제여부)
+
+id bigint not null pk auto_increment
+title varchar(300) not null
+content varchar(4000) not null
+viewQty int defalut 0
+likeQty int default 0
+createDt varchar(20)
+createId varchar(30)
+updateDt varchar(20)
+updateId varchar(30)
+deleteDt varchar(20)
+deleteId varchar(30)
+deleteFlag tinyint(1) not null 
+
+
+
+
+[BoardMybatisMapper interface 와 BoardMybatisMapper.xml 작성]
+
+[mapper interface]
+void insert(BoardDto dto)
+BoardDto findById(Long id)
+void update(BoardDto dto)
+void delete(Long id)
+List<BoardDto> findAll()
+Integer countAll()
+
+1. <mapper namespace=" ">  namespace속성에 @mapper로 지정된 인터페이스의 풀경로 적기
+2. 각 쿼리마다 (id)에는 mapper클래스의 메서드명, (parameterType)에는 해당메서드의 파라미터,
+ (resultType)에는 해당 메서드의 리턴타입을 명시해준다.
+
