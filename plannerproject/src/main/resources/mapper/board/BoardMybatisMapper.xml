@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.phh.plannerproject.board.IBoardMyBatisMapper">
+
+    <!--게시글 등록 -->
+    <insert id="insert" parameterType="BoardDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO board_tbl ( title
+                              , content
+                              , viewQty
+                              , likeQty
+                              , createDt
+                              , createId
+                              , deleteFlag)
+        VALUES ( #{title}
+               , #{content}
+               , 0
+               , 0
+               , #{createDt}
+               , #{createId}
+               , false)
+    </insert>
+
+    <!-- 게시글 상세정보 조회 -->
+    <select id="findById" parameterType="long" resultType="BoardDto" >
+        SELECT id
+             , title
+             , content
+             , viewQty
+             , likeQty
+             , createDt
+             , createId
+             , updateDt
+             , updateId
+             , deleteDt
+             , deleteId
+             , deleteFlag
+        FROM board_tbl
+        WHERE id = #{id}
+          AND deleteFlag = false
+    </select>
+
+    <!-- 게시글 수정 -->
+    <update id="update" parameterType="BoardDto">
+        UPDATE board_tbl
+        SET title = #{title}
+          , content = #{content}
+          , updateDt = #{updateDt}
+          , updateId = #{updateId}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 게시글 삭제 -->
+    <delete id="delete" parameterType="long">
+        UPDATE board_tbl
+        SET deleteFlag = TRUE
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 게시글 리스트 조회 -->
+    <select id="findAll" resultType="BoardDto">
+        SELECT id
+             , title
+             , content
+             , viewQty
+             , likeQty
+             , createDt
+             , createId
+             , updateDt
+             , updateId
+             , deleteDt
+             , deleteId
+             , deleteFlag
+        FROM board_tbl
+        WHERE deleteFlag = false
+        ORDER BY id DESC
+    </select>
+</mapper>
