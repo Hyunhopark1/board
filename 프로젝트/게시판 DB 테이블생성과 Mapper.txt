@@ -15,7 +15,9 @@ deleteDt varchar(20)
 deleteId varchar(30)
 deleteFlag tinyint(1) not null 
 
-
+[comment_tbl]
+필드:
+(댓글id, 내용, 작성자, 작성일, 추천수, 수정일, 삭제여부, 테이블)
 
 
 [BoardMybatisMapper interface 와 BoardMybatisMapper.xml 작성]
