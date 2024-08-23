@@ -1,5 +1,7 @@
 package com.phh.plannerproject.board;
 
+import java.util.List;
+
 public interface IBoardService {
 
 
@@ -11,6 +13,6 @@ public interface IBoardService {
 
     Boolean delete(Long id);
 
-
+    List<BoardDto> findAllByNameContains();
 
 }
