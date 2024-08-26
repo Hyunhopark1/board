@@ -1,0 +1,27 @@
+create table board_review_tbl (
+	boardReviewId bigint not null primary key,
+	title varchar(100) not null,
+	content varchar(3000) not null,
+	memberId bigint not null,
+	createDt timestamp default current_timestamp not null,
+	viewQty int default 0 not null,
+	likeQty int default 0 not null,
+	updateDt date,
+	deleteYn tinyint default 0 not null,
+	areaCode bigint not null 
+);
+
+
+create table board_review_tbl (
+	boardReviewId bigint not null primary key,
+	title varchar(100) not null,
+	content varchar(3000) not null,
+	memberId bigint not null,
+	createDt timestamp default current_timestamp not null,
+	viewQty int default 0 not null,
+	likeQty int default 0 not null,
+	updateDt date,
+	deleteYn tinyint default 0 not null,
+	areaCode bigint not null 
+);
+
