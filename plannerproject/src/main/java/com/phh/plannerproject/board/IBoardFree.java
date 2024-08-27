@@ -1,8 +1,8 @@
 package com.phh.plannerproject.board;
 
-import com.phh.plannerproject.boardbase.IBoardBase;
 
-public interface IBoard extends IBoardBase {
+
+public interface IBoardFree{
     Long getId();
     void setId(Long id);
 
@@ -18,7 +18,19 @@ public interface IBoard extends IBoardBase {
     Integer getLikeQty();
     void setLikeQty(Integer likeQty);
 
-    default void copyFields(IBoard from) {
+    String getCreateDt();
+    void setCreateDt(String createDt);
+
+    String getCreateId();
+    void setCreateId(String createId);
+
+    String getUpdateDt();
+    void setUpdateDt(String updateDt);
+
+    Boolean getDeleteYn();
+    void setDeleteYn(Boolean deleteYn);
+
+    default void copyFields(IBoardFree from) {
         if (from == null) {
             return;
         }
@@ -37,6 +49,17 @@ public interface IBoard extends IBoardBase {
         if (from.getLikeQty() != null) {
             this.setLikeQty(from.getLikeQty());
         }
-        IBoardBase.super.copyFields(from);
+        if (from.getCreateDt() != null && !from.getCreateDt().isEmpty()) {
+            this.setCreateDt(from.getCreateDt());
+        }
+        if (from.getCreateId() != null && !from.getCreateId().isEmpty()) {
+            this.setCreateId(from.getCreateId());
+        }
+        if (from.getUpdateDt() != null && !from.getUpdateDt().isEmpty()) {
+            this.setUpdateDt(from.getUpdateDt());
+        }
+        if (from.getDeleteYn() != null) {
+            this.setDeleteYn(from.getDeleteYn());
+        }
     }
 }

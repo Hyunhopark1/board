@@ -1,6 +1,6 @@
 package com.phh.plannerproject.board;
 
-import com.phh.plannerproject.boardbase.BoardBaseDto;
+
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -9,13 +9,17 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class BoardDto extends BoardBaseDto implements IBoard {
+public class BoardFreeDto implements IBoardFree {
 
    private Long id;
    private String title;
    private String content;
    private Integer viewQty;
    private Integer likeQty;
+   private String createId;
+   private String createDt;
+   private String updateDt;
+   private Boolean deleteYn;
 
 
 }

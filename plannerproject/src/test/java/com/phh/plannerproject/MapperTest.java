@@ -4,8 +4,8 @@ package com.phh.plannerproject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.phh.plannerproject.board.BoardDto;
-import com.phh.plannerproject.board.IBoardMyBatisMapper;
+import com.phh.plannerproject.board.BoardFreeDto;
+import com.phh.plannerproject.board.IBoardFreeMyBatisMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,13 +16,13 @@ import java.util.List;
 public class MapperTest {
 
     @Autowired
-    IBoardMyBatisMapper mapper;
+    IBoardFreeMyBatisMapper mapper;
 
 
 
     @Test
     void insert(){
-        BoardDto dto = BoardDto.builder()
+        BoardFreeDto dto = BoardFreeDto.builder()
                 .title("1번제목")
                 .content("1번 내용")
                 .createId("박현호")
@@ -30,13 +30,13 @@ public class MapperTest {
                 .build();
 
         this.mapper.insert(dto);
-        List<BoardDto> list = mapper.findAll();
+        List<BoardFreeDto> list = mapper.findAll();
         System.out.println("게시글 수는 "+list.size()+"개");
     }
 
     @Test
     void findById(){
-        BoardDto find = this.mapper.findById(1L);
+        BoardFreeDto find = this.mapper.findById(1L);
 
         try {
             String postJson = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(find);
@@ -49,14 +49,14 @@ public class MapperTest {
 
     @Test
     void update(){
-        BoardDto dto = BoardDto.builder()
+        BoardFreeDto dto = BoardFreeDto.builder()
                 .id(1L)
                 .title("2번 제목")
                 .content("2번 내용")
                 .build();
         this.mapper.update(dto);
 
-        BoardDto find = this.mapper.findById(1L);
+        BoardFreeDto find = this.mapper.findById(1L);
         try {
             String postJson = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(find);
             System.out.println(postJson);
@@ -68,10 +68,10 @@ public class MapperTest {
 
     @Test
     void delete(){
-        List<BoardDto> list = this.mapper.findAll();
+        List<BoardFreeDto> list = this.mapper.findAll();
         System.out.println("삭제 전 게시글 수 :"+list.size());
         this.mapper.delete(1L);
-        List<BoardDto> list2 = this.mapper.findAll();
+        List<BoardFreeDto> list2 = this.mapper.findAll();
         System.out.println("삭제 후 게시글 수 :"+list2.size());
     }
 }

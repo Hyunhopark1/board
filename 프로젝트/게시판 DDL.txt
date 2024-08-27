@@ -1,27 +1,54 @@
-create table board_review_tbl (
-	boardReviewId bigint not null primary key,
-	title varchar(100) not null,
-	content varchar(3000) not null,
-	memberId bigint not null,
-	createDt timestamp default current_timestamp not null,
-	viewQty int default 0 not null,
-	likeQty int default 0 not null,
-	updateDt date,
-	deleteYn tinyint default 0 not null,
-	areaCode bigint not null 
+[자유게시글]
+CREATE TABLE `board_free_tbl` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `content` varchar(3000) COLLATE utf8mb4_general_ci NOT NULL,
+  `createId` bigint NOT NULL,
+  `createDt` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `viewQty` int NOT NULL DEFAULT '0',
+  `likeQty` int NOT NULL DEFAULT '0',
+  `updateDt` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `deleteYn` tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `createId` (`createId`),
+  CONSTRAINT `board_free_tbl_ibfk_1` FOREIGN KEY (`createId`) REFERENCES `user_tbl` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) 
+[후기게시글]
+CREATE TABLE `board_review_tbl` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `content` varchar(3000) COLLATE utf8mb4_general_ci NOT NULL,
+  `createId` bigint NOT NULL,
+  `createDt` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `viewQty` int NOT NULL DEFAULT '0',
+  `likeQty` int NOT NULL DEFAULT '0',
+  `updateDt` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `deleteYn` tinyint NOT NULL DEFAULT '0',
+  `areaCode` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `createId` (`createId`),
+  KEY `areaCode` (`areaCode`),
+  CONSTRAINT `board_review_tbl_ibfk_1` FOREIGN KEY (`createId`) REFERENCES `user_tbl` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `board_review_tbl_ibfk_2` FOREIGN KEY (`areaCode`) REFERENCES `area_code_tbl` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+)
+
+[자유게시글-댓글]
+create table board_free_comment_tbl(
+id bigint not null auto_increment,
+comment varchar(1000),
+likeQty int default 0,
+boardId bigint not null,
+createDt varchar(20) not null,
+createId bigint not null,
+updateDt varchar(20),
+deleteYn tinyint defalut 0 not null,
+primary key(id),
+foreign key(boardid) references board_free(id)
 );
 
 
-create table board_review_tbl (
-	boardReviewId bigint not null primary key,
-	title varchar(100) not null,
-	content varchar(3000) not null,
-	memberId bigint not null,
-	createDt timestamp default current_timestamp not null,
-	viewQty int default 0 not null,
-	likeQty int default 0 not null,
-	updateDt date,
-	deleteYn tinyint default 0 not null,
-	areaCode bigint not null 
-);
 
+[제약조건 추가] 
+CONSTRAINT FOREIGN KEY (`createId`) REFERENCES `user_tbl` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+
+ 
