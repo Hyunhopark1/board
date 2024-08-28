@@ -3,6 +3,7 @@ package com.phh.plannerproject.board;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,6 +57,19 @@ public class BoardFreeController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Long> delete(@PathVariable Long id, @RequestBody BoardFreeDto dto) {
+        try {
+            if (id == null || dto == null || dto.getId() == null || dto.getId() <= 0 || !id.equals(dto.getId())) {
+                return ResponseEntity.badRequest().build();
+            }
+            this.boardFreeService.delete(id);
+            return ResponseEntity.ok(id);
+        } catch (Exception ex) {
+            log.error(ex.toString());
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 
 }

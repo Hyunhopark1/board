@@ -4,23 +4,17 @@
 <mapper namespace="com.phh.plannerproject.board.IBoardFreeMyBatisMapper">
 
     <!--게시글 등록 -->
-    <insert id="insert" parameterType="BoardDto" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="BoardFreeDto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO board_free_tbl ( title
                                     , content
-                                    , createId
-                                    , viewQty
-                                    , likeQty
-                                    , deleteYn
+                                    , createId)
         VALUES ( #{title}
                , #{content}
-               , #{createId}
-               , 0
-                , 0
-               , false)
+               , #{createId})
     </insert>
 
     <!-- 게시글 상세정보 조회 -->
-    <select id="findById" parameterType="long" resultType="BoardDto" >
+    <select id="findById" parameterType="long" resultType="BoardFreeDto" >
         SELECT id
              , title
              , content
@@ -36,7 +30,7 @@
     </select>
 
     <!-- 게시글 수정 -->
-    <update id="update" parameterType="BoardDto">
+    <update id="update" parameterType="BoardFreeDto">
         UPDATE board_free_tbl
         SET title = #{title}
           , content = #{content}
@@ -52,7 +46,7 @@
     </delete>
 
     <!-- 게시글 리스트 조회 -->
-    <select id="findAll" resultType="BoardDto">
+    <select id="findAll" resultType="BoardFreeDto">
         SELECT id
              , title
              , content
