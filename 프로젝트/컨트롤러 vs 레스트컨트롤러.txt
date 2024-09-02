@@ -1,0 +1,80 @@
+1. Controller에서 findAllByNameContains 사용
+
+ @GetMapping("/category_list")
+    // GET method로 /catweb/category_list url 주소로 요청을 받도록 한다.
+    public String categoryList(Model model, @RequestParam int page, @RequestParam String searchName) {
+        // String : "템플릿 화면파일 경로", "redirect:url 주소"
+        // Model model : MVC 프레임워크에서는 View 와 Controller 와 Model 을 분리해서 사용한다.
+        //  View 와 Model 의 데이터를 연결하는 역할을 한다. 구식의 ModelAndView
+        // @RequestParam int page, @RequestParam String searchName : HTTP Request Query String
+        //  : url 주소에서 ?searchName=&page=값 변수의 값을 받는다. Request Query String
+        try {
+            IMember loginUser = (IMember)model.getAttribute(SecurityConfig.LOGINUSER);
+            if ( loginUser == null ) {
+                // 로그인 사용자가 아니면 리턴
+                return "redirect:/";
+            }
+            SearchAjaxDto searchAjaxDto = SearchAjaxDto.builder()
+                    .page(page).searchName(searchName).build();
+            // SearchAjaxDto 는 select Sql 쿼리문장을 만들때 where, order by, 페이지 문장을 만들때 사용한다.
+            int total = this.categoryService.countAllByNameContains(searchAjaxDto);
+            // 최종 목적지인 Mybatis 쿼리를 DB 에 countAllByNameContains 실행하고 결과를 리턴 받는다.
+            // 검색식의 searchName 으로 찾은 데이터 행수를 리턴받는다. 화면의 페이지 계산에 사용된다.
+            List<ICategory> list = this.categoryService.findAllByNameContains(searchAjaxDto);            // 최종 목적지인 Mybatis 쿼리를 DB 에 실행하고 결과를 리턴 받는다.
+            // findAllByNameContains 쿼리 문장을 만들때 orderByWord, searchName, rowsOnePage, firstIndex 값을
+            // 활용하여 쿼리 문장을 만들고 실행한다.
+            searchAjaxDto.setTotal(total);
+            // searchAjaxDto.total 값을 저장한다.
+            model.addAttribute("categoryList", list);
+            // Model 객체의 속성"categoryList" 과 list 값을 추가한다.
+            // 화면템플릿 "catweb/category_list.html"의 속성이름"categoryList" 에서 list 값을 받는다.)
+            model.addAttribute("searchAjaxDto", searchAjaxDto);
+            // Model 객체의 속성"searchAjaxDto" 과 searchAjaxDto 값을 추가한다.
+            // 화면템플릿 "catweb/category_list.html"의 속성이름"searchAjaxDto" 에서 searchAjaxDto 값을 받는다.)
+        } catch (Exception ex) {
+            log.error(ex.toString()); // error 응답
+        }
+        return "catweb/category_list";
+        // 화면 템플릿 엔진의 화면파일 경로/파일명
+        // => resources/templates/catweb/category_list.(html/mustache/jsp/..)
+    }
+
+2.  RestController에서 findAllByNameContains 사용
+
+@PostMapping("/searchName") // POST method : /api/vi/cat/searchName
+    public ResponseEntity<ResponseDto> findAllByNameContains(Model model, @RequestBody SearchAjaxDto searchAjaxDto) {
+        // ResponseEntity<데이터형> : http 응답을 http 응답코드와 리턴데이터형으로 묶어서 응답한다.
+        // SearchAjaxDto 데이터형를 JSON 문자열로 표현하여 리턴한다.
+        // @RequestBody SearchAjaxDto searchAjaxDto : JSON 문자열로 요청을 받는다.
+        //      다만 JSON 문자열의 데이터가 SearchAjaxDto 데이터형이어야 한다.
+        //      {"searchName":"값", "sortColumn":"값", "sortAscDsc":"값", "page":값}
+        try {
+            IMember loginUser = (IMember)model.getAttribute(SecurityConfig.LOGINUSER);
+            // POSTMAN 으로 테스트 안되지만, WEB 화면에서는 로그인한 사용자만 가능하다.
+            if ( loginUser == null ) {
+                return makeResponseEntity(HttpStatus.FORBIDDEN, ResponseCode.R888881, "로그인 필요", null);
+            }
+            if ( searchAjaxDto == null ) {
+                return makeResponseEntity(HttpStatus.BAD_REQUEST, ResponseCode.R000051, "입력 매개변수 에러", null);
+            }
+            int total = this.categoryService.countAllByNameContains(searchAjaxDto);
+            // 최종 목적지인 Mybatis 쿼리를 DB 에 실행하고 결과를 리턴 받는다.
+            // 검색식의 searchName 으로 찾은 데이터 행수를 리턴받는다. 화면의 페이지 계산에 사용된다.
+            List<ICategory> list = this.categoryService.findAllByNameContains(searchAjaxDto);
+            // 최종 목적지인 Mybatis 쿼리를 DB 에 실행하고 결과를 리턴 받는다.
+            // findAllByNameContains 쿼리 문장을 만들때 orderByWord, searchName, rowsOnePage, firstIndex 값을
+            // 활용하여 쿼리 문장을 만들고 실행한다.
+            if ( list == null ) {
+                return makeResponseEntity(HttpStatus.NOT_FOUND, ResponseCode.R000041, "데이터 검색 에러", null);
+            }
+            searchAjaxDto.setTotal(total);
+            // SearchAjaxDto 응답결과에 total 을 추가한다.
+            searchAjaxDto.setDataList(list);
+            // SearchAjaxDto 응답결과에 List<ICategory> 을 추가한다.
+            return makeResponseEntity(HttpStatus.OK, ResponseCode.R000000, "OK", searchAjaxDto);
+            // 200 OK 와 result 데이터를 응답한다.
+        } catch ( Exception ex ) {
+            log.error(ex.toString());
+            return makeResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, ResponseCode.R999999, ex.getMessage(), null);
+        }
+    }
