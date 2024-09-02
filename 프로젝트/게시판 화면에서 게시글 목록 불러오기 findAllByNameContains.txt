@@ -1,0 +1,49 @@
+검색명 포함된 모든 리스트 가져오는 메소드 : List<BoardDto>findAllByNameContains(searchBoardDto)
+
+검색명 포함된 리스트의 개수 가져오는 메소드 :int coundAllByNameContains(searchBoardDto)
+
+<게시판 목록>
+No,  제목,  작성자,  작성일,  조회,  좋아요
+1     1번제목  홍길동  20240810  10   1 
+
+
+{{#boardList}} --> 해당 html을 return한 컨트롤러에서 보낸 model
+List<BoardDto> list = this.boardService.findAllByNameContains(searchBoardDto);
+model.addAttribute("boardList",list);
+( boardService.findAllByNameContains(SearchBoardDto dto) 메소드에서 return받은 List<BoardDto> )
+
+
+
+<게시판 화면에서 게시글 목록 불러오기> 
+
+<div class="board-list">
+  <div class="list-header">
+    <div class="header-id">NO</div>
+    <div class="header-title">제목</div>
+    <div class="header-writer">작성자</div>
+    <div class="header-createDt">작성일</div>
+    <div class="header-viewQty">조회</div>
+    <div class="header-likeQty">좋아요</div>
+  </div>
+{{#boardList}} 
+<a href="/board/board_view?id={{id}}">
+  <div class="list-content">
+    <div class="content-id">{{id}}</div>
+    <div class="content-title">{{title}}</div>
+    <div class="content-writer">{{createName}}</div>
+    <div class="content-createDt">{{createDt}}</div>
+    <div class="content-viewQty">{{viewQty}}</div>
+    <div class="content-likeQty">{{likeQty}}</div>
+  </div>
+</div>
+
+
+<SearchBoardDto>
+String orderByWord  --> 
+String searchName --> 검색명
+String sortColumn --> 정렬할 컬럼명
+String sortAscDsc --> 오름/내림차순
+Integer rowsOnePage --> 한페이지에 몇 행씩 
+Integer firstIndex --> 
+Integer page    -->페이지 번호
+Integer total    -->행의 총개수

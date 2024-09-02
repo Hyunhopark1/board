@@ -1,0 +1,95 @@
+Sping MVC 웹 어플리케이션에서 HTML폼 데이터를 Java객체로 매핑하는 과정
+
+
+1. HTML 폼 제출
+<form id="form" name="form" method="post" action="/ctweb/oldhtml/category_old_act">
+    <label for="id"></label><input type="number" id="id" name="id"/>
+    <label for="name"></label><input type="text" id="name" name="name"/>
+    <input type="submit" value="전송"/><input type="reset" value="취소"/>
+</form>
+
+
+---> '/ctweb/oldhtml/category_old_act'  URL로 POST요청 보냄
+---> input 태그의 name속성의 값은 Java객체에 매핑되는 값이다. 
+---> 예를들어 name속성값인 id,name은  CategoryDto의 필드 id,name과 매핑된다. 
+
+2. Web컨트롤러에서 @PostMapping과  @ModelAttribute를 사용하여 폼 데이터 처리함
+@PostMapping("/oldhtml/category_old_act")
+public String categoryOldInsert(@ModelAttribute CategoryDto dto, Model model) {
+    // 처리 로직
+}
+-@PostMapping() : 지정된 url로 들어온 Post 요청을 처리함
+-@ModelAttribute : 객체를 생성하고 요청 파라미터(id,name)를 이 객체에 매핑함
+
+3. 데이터 바인딩
+
+CategoryDto클래스는 데이터전송을 위한 객체로, 필드이름이
+폼 입력의 'name' 속성과 일치해야함.
+CategoryDto의 필드 id,name은  폼에서 보낸 id,name 값으로 자동으로 채워진다.
+
+4. 데이터베이스에 값 삽입
+
+categoryservice.insert(dto) 
+--> 미리 사전에 서비스단 클래스와 DB접근인터페이스인 Mapper인터페이스를 정의해놓았고
+service의 insert()메소드 안에서는 mapper인터페이스 메소드를 호출한다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[서버 단 처리과정]
+
+1. <자바 소스>
+Dto (데이터 전달용)  
+Repository(DB 접근 메소드모음)
+Service(Repository 메소드 호출) 
+Controller(웹의 요청을 받아옴 : URL주소와 Method방식을 받아옴)
+WebController(웹의 요청을 받아옴: html파일과 연계하여 form이나 링크에서 보낸 url을 매핑)
+
+*Controller, WebController 둘 다 요청이 들어온 URL 주소를 Mapping하여
+메소드를 설계해서 DB에 접근하여 CRUD 기능을 수행한다.
+
+
+2. <resources 설정 파일>
+application.properties : 연동할 DBMS 설정(url,user,password), 사용할ORM (Mybatis/JPA) 설정, server.port(연결할 포트번호) 설정
+Mapper.xml(Mybatis 사용할때) : 연결할 Repository 설정(<mapper namespace= "레포지토리 경로">),레포지토리interface에 정의한 메소드과 매핑되는 쿼리문 작성
+----> Mybatis가 쿼리문태그의 id속성을 식별하여 해당 메소드를 실행할때 해당쿼리를 실행하고, parameterType속성에 적힌
+**주의사항 : Mapper.xml에서 쿼리문 작성할때  1.id속성값에는 레포지토리의 메소드명과 일치하게 작성해야하고, 2.parameterType 속성값에는 메소드의 매개변수 타입과
+일치하게 작성해야한다.
+
+
+
+
+
+
+
+
+
+MySql의 phonebook_DB에 접속
+테이블 category_tbl 에 필드 id,name이 있음
+
+category_tbl에   name="박현호"를 넣는다
+insert into category_tbl(name) values(프론트에서 입력된값)
+
+
+
+
+
+
+
