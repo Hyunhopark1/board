@@ -1,0 +1,13 @@
+board_free_tbl insert문
+
+
+insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('제목입니다','삼척 놀러가고싶다',1,10,11);
+insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('제목3입니다','동해 놀러가고싶다',3,10,11);
+insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('제목4입니다','속초 놀러가고싶다',4,10,11);
+insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('제목5입니다','양양 놀러가고싶다',1,10,11);
+insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('제목6입니다','바다 놀러가고싶다',1,80,11);
+insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('제목7입니다','계곡 놀러가고싶다',3,10,16);
+insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('제목8입니다','ㅋㅋ 놀러가고싶다',4,130,11);
+insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('제목9입니다','ㄹㄹ 놀러가고싶다',2,51,11);
+insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('제목10입니다','ㅎㅎ 놀러가고싶다',3,110,11);
+insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('방학 언제인가요','종강마렵다',3,110,11);

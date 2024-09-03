@@ -4,7 +4,7 @@ CREATE TABLE `board_free_tbl` (
   `title` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `content` varchar(3000) COLLATE utf8mb4_general_ci NOT NULL,
   `createId` bigint NOT NULL,
-  `createDt` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `createDt` datetime DEFAULT CURRENT_TIMESTAMP,
   `viewQty` int NOT NULL DEFAULT '0',
   `likeQty` int NOT NULL DEFAULT '0',
   `updateDt` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -12,7 +12,8 @@ CREATE TABLE `board_free_tbl` (
   PRIMARY KEY (`id`),
   KEY `createId` (`createId`),
   CONSTRAINT `board_free_tbl_ibfk_1` FOREIGN KEY (`createId`) REFERENCES `user_tbl` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) 
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 [후기게시글]
 CREATE TABLE `board_review_tbl` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -31,6 +32,24 @@ CREATE TABLE `board_review_tbl` (
   CONSTRAINT `board_review_tbl_ibfk_1` FOREIGN KEY (`createId`) REFERENCES `user_tbl` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `board_review_tbl_ibfk_2` FOREIGN KEY (`areaCode`) REFERENCES `area_code_tbl` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 )
+
+[유저]
+CREATE TABLE `user_tbl` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `loginId` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `gender` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `photo` varchar(500) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `loginId` (`loginId`),
+  UNIQUE KEY `nickname` (`nickname`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
 
 [자유게시글-댓글]
 create table board_free_comment_tbl(
