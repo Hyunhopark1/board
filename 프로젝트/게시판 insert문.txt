@@ -11,3 +11,10 @@ insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('제�
 insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('제목9입니다','ㄹㄹ 놀러가고싶다',2,51,11);
 insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('제목10입니다','ㅎㅎ 놀러가고싶다',3,110,11);
 insert into board_free_tbl(title,content,createId,viewQty,likeQty) values('방학 언제인가요','종강마렵다',3,110,11);
+
+
+
+
+user insert문
+
+insert into user_tbl(loginId,password,nickname,gender,name,email) values('aaaaaa','aaaaaa','홍길동','남','aaaaa','aaaaa@adsa');
